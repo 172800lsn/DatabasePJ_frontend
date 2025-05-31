@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import UserDashboard from "../views/UserDashboard.vue";
 import UserLogin from "../views/UserLogin.vue";
 import UserRegister from "../views/UserRegister.vue"; // 引入注册页面
+import WorkerBoard from "../views/WorkerBoard.vue";
+import AdminBoard from "../views/AdminBoard.vue";
 
 // 路由配置
 const routes = [
@@ -43,16 +45,19 @@ const routes = [
             },
         ],
     },
-    // {
-    //     path: "/dashboard/worker",
-    //     component: WorkerDashboard, // 工作人员主界面
-    //     meta: { title: "工作人员主页", requiresAuth: true },
-    // },
-    // {
-    //     path: "/dashboard/admin",
-    //     component: AdminDashboard, // 管理员主界面
-    //     meta: { title: "管理员主页", requiresAuth: true },
-    // },
+    {
+        path: "/workerboard",
+        component: WorkerBoard, // 维修人员主界面
+        meta: { title: "维修工页面",requiresAuth: true },
+        children: [],
+    },
+    {
+        path: "/adminboard",
+        component: AdminBoard, // 管理员主界面
+        meta: { title: "管理员页面",requiresAuth: true },
+        children: [],
+    }
+
 ];
 
 // 创建路由实例
@@ -66,7 +71,7 @@ router.beforeEach((to, from,
                    next) => {
     document.title = to.meta.title || "车辆维修系统";
     //获取用户信息
-    const userInfo = localStorage.getItem("userInfo");
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const requiresAuth = to.meta.requiresAuth;
 
     if(!userInfo && to.path.startsWith("/dashboard")){
@@ -78,9 +83,9 @@ router.beforeEach((to, from,
         if (userInfo.role === "USER") {
             return next("/dashboard");
         } else if (userInfo.role === "WORKER") {
-            return next("/dashboard/worker");
+            return next("/workerboard");
         } else if (userInfo.role === "ADMIN") {
-            return next("/dashboard/admin");
+            return next("/adminboard");
         }
     }
 
