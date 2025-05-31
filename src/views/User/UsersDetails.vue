@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import API from "../api/config";
+import API from "../../api/config";
 
 export default {
   data() {

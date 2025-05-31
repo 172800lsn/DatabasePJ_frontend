@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-import UserDashboard from "../views/UserDashboard.vue";
 import UserLogin from "../views/UserLogin.vue";
 import UserRegister from "../views/UserRegister.vue"; // 引入注册页面
-import WorkerBoard from "../views/WorkerBoard.vue";
-import AdminBoard from "../views/AdminBoard.vue";
+import UserDashboard from "../views/User/UserDashboard.vue";
+import WorkerBoard from "../views/Worker/WorkerBoard.vue";
+import AdminBoard from "../views/Admin/AdminBoard.vue";
 
 // 路由配置
 const routes = [
@@ -25,22 +25,22 @@ const routes = [
         children: [
             {
                 path: "report",
-                component: () => import("../views/ReportRepairInfo.vue"),
+                component: () => import("../views/User/ReportRepairInfo.vue"),
                 meta: { title: "车辆报修" },
             },
             {
                 path: "records",
-                component: () => import("../views/RepairsInfo.vue"),
+                component: () => import("../views/User/RepairsInfo.vue"),
                 meta: { title: "维修记录" },
             },
             {
                 path: "details",
-                component: () => import("../views/UsersDetails.vue"),
+                component: () => import("../views/User/UsersDetails.vue"),
                 meta: { title: "账户与车辆信息" },
             },
             {
                 path: "feedback",
-                component: () => import("../views/RepairFeedback.vue"),
+                component: () => import("../views/User/RepairFeedback.vue"),
                 meta: { title: "维修反馈" },
             },
         ],
@@ -71,7 +71,7 @@ router.beforeEach((to, from,
                    next) => {
     document.title = to.meta.title || "车辆维修系统";
     //获取用户信息
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const userInfo = JSON.parse(localStorage.getItem("user"));
     const requiresAuth = to.meta.requiresAuth;
 
     if(!userInfo && to.path.startsWith("/dashboard")){
