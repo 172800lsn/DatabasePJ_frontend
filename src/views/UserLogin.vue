@@ -34,13 +34,41 @@ export default {
   methods: {
     async login() {
       try {
+        console.log("username:", this.username);
+        console.log("password:", this.password);
         const response = await API.post("/auth/login", {
           username: this.username,
           password: this.password,
+          // id: "",
+          // role: "",
+          // email: "",
+          // name: "",
+          // workType: "",
+          // hourlyRate: "",
         });
-        alert(response.data); // 显示登录成功信息
-        // 登录跳转，可以根据角色跳转到不同页面
-        this.$router.push("/dashboard");
+
+        //获取用户登录信息对像
+        const user = response.data;
+        console.log("user:", user.username);
+        // 打印后端返回的完整响应
+        console.log("Response data:", response.data);
+
+
+        //将用户信息存储在localStorage中
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("authToken", user.username);
+
+        if(user.role == "USER"){
+          this.$router.push("/dashboard");
+        }
+        // else if(user.role == "WORKER"){
+        //   this.$router.push("/worker");
+        // }else if(user.role == "ADMIN"){
+        //   this.$router.push("/admin");
+        // }
+        else{
+          alert("用户名或密码错误1");
+        }
       } catch (error) {
         console.error("Error during login:", error.response.data);
         alert("登录失败：" + error.response.data);
