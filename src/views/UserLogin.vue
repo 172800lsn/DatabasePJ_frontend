@@ -60,6 +60,7 @@ export default {
 
         if(user.role == "USER"){
           this.$router.push("/dashboard");
+          alert("登录成功!");
         }
         // else if(user.role == "WORKER"){
         //   this.$router.push("/worker");
