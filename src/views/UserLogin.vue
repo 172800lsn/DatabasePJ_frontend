@@ -59,15 +59,15 @@ export default {
         localStorage.setItem("authToken", user.username);
 
         if(user.role == "USER"){
+          //跳转到/dashboard页面
+          console.log("user.role:", user.role);
           this.$router.push("/dashboard");
           alert("登录成功!");
-        }
-        // else if(user.role == "WORKER"){
-        //   this.$router.push("/worker");
-        // }else if(user.role == "ADMIN"){
-        //   this.$router.push("/admin");
-        // }
-        else{
+        } else if(user.role == "WORKER"){
+          this.$router.push("/worker");
+        }else if(user.role == "ADMIN"){
+          this.$router.push("/admin");
+        } else{
           alert("用户名或密码错误1");
         }
       } catch (error) {
