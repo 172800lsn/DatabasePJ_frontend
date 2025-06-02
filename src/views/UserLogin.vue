@@ -39,12 +39,6 @@ export default {
         const response = await API.post("/auth/login", {
           username: this.username,
           password: this.password,
-          // id: "",
-          // role: "",
-          // email: "",
-          // name: "",
-          // workType: "",
-          // hourlyRate: "",
         });
 
         //获取用户登录信息对像
