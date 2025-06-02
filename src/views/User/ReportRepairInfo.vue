@@ -3,8 +3,12 @@
     <h2>提交车辆报修信息</h2>
     <form @submit.prevent="submitReport">
       <div>
-        <label>车辆名称：</label>
-        <input v-model="vehicleName" required />
+        <label>车牌号：</label>
+        <input v-model="licensePlate" required />
+      </div>
+      <div>
+        <label>车辆型号：</label>
+        <input v-model="vehicleModel" required />
       </div>
       <div>
         <label>问题描述：</label>
@@ -21,7 +25,9 @@ import API from "../../api/config";
 export default {
   data() {
     return {
-      vehicleName: "",
+      requestUser: JSON.parse(localStorage.getItem("user"))?.username || "USER", // 从 localStorage 获取用户信息
+      licensePlate: "",
+      vehicleModel: "",
       description: "",
     };
   },
@@ -29,7 +35,9 @@ export default {
     async submitReport() {
       try {
         const response = await API.post("/report", {
-          vehicleName: this.vehicleName,
+          requestUser: this.requestUser,
+          licensePlate: this.licensePlate,
+          vehicleModel: this.vehicleModel,
           description: this.description,
         });
         alert("报修提交成功：" + response.data);

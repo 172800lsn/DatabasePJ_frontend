@@ -26,6 +26,11 @@
         </li>
       </ul>
     </div>
+
+    <!-- 退出按钮 -->
+    <div class="logout-section">
+      <button class="logout-button" @click="logout">退出登录</button>
+    </div>
   </div>
 </template>
 
@@ -43,6 +48,7 @@ export default {
     };
   },
   methods: {
+    // 标记任务为已完成
     markAsCompleted(taskId) {
       const taskIndex = this.tasks.findIndex((task) => task.id === taskId);
       if (taskIndex !== -1) {
@@ -54,43 +60,90 @@ export default {
         alert("任务已标记完成！");
       }
     },
+
+    // 退出登录
+    logout() {
+      // 清除登录信息
+      localStorage.removeItem("user");
+      localStorage.removeItem("authToken");
+
+      // 跳转到登录页面
+      this.$router.push("/login");
+      alert("已成功退出！");
+    },
   },
 };
 </script>
 
 <style scoped>
+/* 主体布局 */
 .worker-board {
   width: 800px;
-  margin: 0 auto;
+  margin: 50px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-h1, h2 {
+
+/* 标题样式 */
+h1 {
   text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
 }
-.task-section, .history-section {
-  margin-top: 20px;
+h2 {
+  font-size: 20px;
+  color: #444;
+  margin-bottom: 15px;
 }
+
+/* 列表样式 */
 ul {
   list-style: none;
   padding: 0;
 }
+
+/* 任务项样式 */
 li {
   margin-bottom: 15px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  background-color: #fff;
 }
+
+/* 按钮样式 */
 button {
   padding: 5px 10px;
   background-color: #5cb85c;
-  color: #fff;
+  color: white;
+  font-size: 14px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 button:hover {
   background-color: #4cae4c;
+}
+
+/* 退出按钮样式 */
+.logout-section {
+  margin-top: 20px;
+  text-align: center;
+}
+.logout-button {
+  padding: 10px 20px;
+  background-color: #d9534f;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.logout-button:hover {
+  background-color: #c9302c;
 }
 </style>

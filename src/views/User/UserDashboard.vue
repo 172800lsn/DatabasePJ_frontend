@@ -32,7 +32,7 @@
 export default {
   data() {
     return {
-      username: JSON.parse(localStorage.getItem("user"))?.username || "用户", // 从 localStorage 获取用户信息
+      username: JSON.parse(localStorage.getItem("user"))?.username || "USER", // 从 localStorage 获取用户信息
     };
   },
   methods: {
