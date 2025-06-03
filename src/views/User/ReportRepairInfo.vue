@@ -34,7 +34,7 @@ export default {
   methods: {
     async submitReport() {
       try {
-        const response = await API.post("/report", {
+        const response = await API.post("/repair-orders/report", {
           requestUser: this.requestUser,
           licensePlate: this.licensePlate,
           vehicleModel: this.vehicleModel,
@@ -42,6 +42,7 @@ export default {
         });
         alert("报修提交成功：" + response.data);
       } catch (error) {
+        console.error("Error during report:", error);
         alert("提交失败，请重试！");
       }
     },
