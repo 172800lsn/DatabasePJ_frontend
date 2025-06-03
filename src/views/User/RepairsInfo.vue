@@ -72,7 +72,8 @@ export default {
     // 获取所有维修记录
     async fetchRepairs() {
       try {
-        const response = await API.post("/repair_orders/repairs",
+        console.log("username:", this.username);
+        const response = await API.post("/repair-orders/repairs",
             {
               username: this.username,
             });
