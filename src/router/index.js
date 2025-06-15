@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import UserLogin from "../views/UserLogin.vue";
 import UserRegister from "../views/UserRegister.vue"; // 引入注册页面
 import UserDashboard from "../views/User/UserDashboard.vue";
-import WorkerBoard from "../views/Worker/WorkerBoard.vue";
 import AdminBoard from "../views/Admin/AdminBoard.vue";
+import WorkerMain from "../views/Worker/WorkerMain.vue";
 
 // 路由配置
 const routes = [
@@ -47,10 +47,43 @@ const routes = [
     },
     {
         path: "/workerboard",
-        component: WorkerBoard, // 维修人员主界面
+        component: WorkerMain, // 维修人员主界面
         meta: { title: "维修工页面",requiresAuth: true },
-        children: [],
+        children: [
+
+        ],
     },
+    {
+        path: "/workerboard/details",
+        name: "details",
+        component: () => import("../views/Worker/WorkerDetails.vue"),
+        meta: { title: "维修人员信息" }
+    },
+    {
+        path: "/workerboard/pending",
+        name: "pending",
+        component: () => import("../views/Worker/PendingWorks.vue"),
+        meta: { title: "待接受维修记录" }
+    },
+    {
+        path:"/workerboard/board",
+        name:"board",
+        component: () => import("../views/Worker/WorkerBoard.vue"),
+        meta: { title: "当前维修" }
+    },
+    {
+        path:"/workerboard/history",
+        name:"history",
+        component: () => import("../views/Worker/HistoryWorks.vue"),
+        meta: { title: "维修历史" }
+    },
+    {
+        path: '/task/:id',
+        name: 'TaskDetail',
+        component: () => import('../views/Worker/TaskDetail.vue'),
+        props: true
+    },
+
     {
         path: "/adminboard",
         component: AdminBoard, // 管理员主界面

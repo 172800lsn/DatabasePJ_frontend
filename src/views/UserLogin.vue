@@ -58,9 +58,9 @@ export default {
           this.$router.push("/dashboard");
           alert("登录成功!");
         } else if(user.role == "WORKER"){
-          this.$router.push("/worker");
+          this.$router.push("/workerboard");
         }else if(user.role == "ADMIN"){
-          this.$router.push("/admin");
+          this.$router.push("/adminboard");
         } else{
           alert("用户名或密码错误1");
         }
