@@ -97,6 +97,11 @@
       </div>
     </div>
 
+    <div class="statistics-navigation">
+      <h2>统计数据</h2>
+      <button @click="navigateToStatistics">数据统计</button>
+    </div>
+
 
     <!-- 退出登录按钮 -->
     <div class="logout-section">
@@ -230,7 +235,10 @@ export default {
       this.fetchVehicles();
     },
 
-      // 退出登录
+    navigateToStatistics() {
+      this.$router.push("/adminboard/statistics");
+    },
+    // 退出登录
       logout() {
         // 清除用户信息
         localStorage.removeItem("user");
