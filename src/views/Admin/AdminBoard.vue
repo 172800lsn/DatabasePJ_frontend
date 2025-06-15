@@ -97,31 +97,6 @@
       </div>
     </div>
 
-    <!-- 任务分配 -->
-    <div class="task-allocation">
-      <h2>任务分配</h2>
-      <div>
-        <label>选择维修工：</label>
-        <select v-model="selectedWorker">
-          <option v-for="worker in workers" :key="worker.id" :value="worker.id">
-            {{ worker.name }}
-          </option>
-        </select>
-      </div>
-      <div>
-        <label>任务描述：</label>
-        <input v-model="newTaskDescription" type="text" />
-      </div>
-      <button @click="assignTask">分配任务</button>
-    </div>
-
-    <!-- 系统统计数据 -->
-    <div class="system-stats">
-      <h2>系统统计</h2>
-      <p>总用户数：{{ users.length }}</p>
-      <p>总任务数：{{ tasks.length }}</p>
-      <p>已完成任务数：{{ completedTasks }}</p>
-    </div>
 
     <!-- 退出登录按钮 -->
     <div class="logout-section">
@@ -153,14 +128,6 @@ export default {
         year: "",
         color: "",
       }, // 新车辆信息
-      workers: [
-        { id: 1, name: "维修工1" },
-        { id: 2, name: "维修工2" },
-      ],
-      tasks: [],
-      completedTasks: 5,
-      selectedWorker: null,
-      newTaskDescription: "",
     };
   },
   methods: {
@@ -263,18 +230,6 @@ export default {
       this.fetchVehicles();
     },
 
-
-    assignTask() {
-      if (this.selectedWorker && this.newTaskDescription) {
-        this.tasks.push({
-          workerId: this.selectedWorker,
-          description: this.newTaskDescription,
-        });
-        alert("任务已分配");
-      } else {
-        alert("请填写完整任务信息");
-      }
-    },
       // 退出登录
       logout() {
         // 清除用户信息
