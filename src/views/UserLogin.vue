@@ -60,7 +60,7 @@ export default {
         } else if(user.role == "WORKER"){
           this.$router.push("/worker");
         }else if(user.role == "ADMIN"){
-          this.$router.push("/admin");
+          this.$router.push("/adminboard");
         } else{
           alert("用户名或密码错误1");
         }
