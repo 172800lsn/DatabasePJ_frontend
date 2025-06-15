@@ -1,6 +1,6 @@
 <template>
   <div class="worker-board">
-    <h1>维修当中</h1>
+    <h1>维修历史</h1>
 
     <!-- 维修任务列表 -->
     <div class="task-section">
@@ -8,7 +8,6 @@
         <li v-for="task in tasks" :key="task.id">
           <p>任务描述：{{ task.description }}</p>
           <p>车辆信息：{{ task.vehicleInfo }}</p>
-          <button @click.stop="navigateToDetail(task.id)">查看详情</button>
         </li>
       </ul>
     </div>
@@ -32,19 +31,13 @@ export default {
   methods: {
     async fetchWorkerTasks() {
       try {
-        const response = await API.post("/repair-orders/worker/tasks",{username:JSON.parse(localStorage.getItem("user"))?.username});
+        const response = await API.post("/repair-orders/worker/history-tasks",{username:JSON.parse(localStorage.getItem("user"))?.username});
         this.tasks = response.data.tasks;
       } catch (error) {
         console.error("获取任务失败:", error);
         alert("无法加载任务数据");
       }
 
-    },
-    navigateToDetail(taskId) {
-      this.$router.push({
-        name: 'TaskDetail',
-        params: { id: taskId }
-      });
     }
     ,
 

@@ -1,6 +1,6 @@
 <template>
   <div class="worker-board">
-    <h1>维修当中</h1>
+    <h1>待接受维修</h1>
 
     <!-- 维修任务列表 -->
     <div class="task-section">
@@ -8,7 +8,10 @@
         <li v-for="task in tasks" :key="task.id">
           <p>任务描述：{{ task.description }}</p>
           <p>车辆信息：{{ task.vehicleInfo }}</p>
-          <button @click.stop="navigateToDetail(task.id)">查看详情</button>
+          <div class="action-buttons">
+            <button class="accept-btn" @click="handleAccept(task.id)">同意</button>
+            <button class="reject-btn" @click="handleReject(task.id)">拒绝</button>
+          </div>
         </li>
       </ul>
     </div>
@@ -32,7 +35,7 @@ export default {
   methods: {
     async fetchWorkerTasks() {
       try {
-        const response = await API.post("/repair-orders/worker/tasks",{username:JSON.parse(localStorage.getItem("user"))?.username});
+        const response = await API.post("/repair-orders/worker/pending-tasks",{username:JSON.parse(localStorage.getItem("user"))?.username});
         this.tasks = response.data.tasks;
       } catch (error) {
         console.error("获取任务失败:", error);
@@ -40,11 +43,36 @@ export default {
       }
 
     },
-    navigateToDetail(taskId) {
-      this.$router.push({
-        name: 'TaskDetail',
-        params: { id: taskId }
-      });
+    async handleAccept(taskId) {
+      try {
+        await API.post("/repair-orders/accept", {
+          taskId: taskId,
+          worker: JSON.parse(localStorage.getItem("user"))?.username
+        });
+        alert("已接受该维修任务");
+        this.removeTask(taskId);
+      } catch (error) {
+        console.error("接受任务失败:", error);
+        alert("操作失败，请重试");
+      }
+    },
+
+    async handleReject(taskId) {
+      try {
+        await API.post("/repair-orders/reject", {
+          taskId: taskId,
+          worker: JSON.parse(localStorage.getItem("user"))?.username
+        });
+        alert("已拒绝该维修任务");
+        this.removeTask(taskId);
+      } catch (error) {
+        console.error("拒绝任务失败:", error);
+        alert("操作失败，请重试");
+      }
+    },
+
+    removeTask(taskId) {
+      this.tasks = this.tasks.filter(task => task.id !== taskId);
     }
     ,
 
