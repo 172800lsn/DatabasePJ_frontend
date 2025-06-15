@@ -56,7 +56,13 @@ const routes = [
         component: AdminBoard, // 管理员主界面
         meta: { title: "管理员页面",requiresAuth: true },
         children: [],
+    },
+    {
+        path: "/adminboard/statistics",
+        component: () => import("../views/Admin/DataStatistics.vue"), // 数据统计页面
+        meta: { title: "数据统计", requiresAuth: true },
     }
+
 
 ];
 
