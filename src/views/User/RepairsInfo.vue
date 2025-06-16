@@ -14,13 +14,13 @@
           <p><strong>状态：</strong>{{ repair.status }}</p>
           <p><strong>开始时间：</strong>{{ repair.startTime ? formatDate(repair.startTime) : "未开始" }}</p>
           <p><strong>维修人员：</strong>
-            <span v-if="repair.workers.length > 0">{{ repair.workers.map(worker => worker.name).join(", ") }}</span>
+            <span v-if="repair.worker">{{ repair.worker.name }}</span>
             <span v-else>暂无</span>
           </p>
           <p><strong>相关材料：</strong></p>
           <ul v-if="repair.materials.length > 0">
             <li v-for="material in repair.materials" :key="material.name">
-              {{ material.name }} ({{ material.quantity }} x ￥{{ material.price }}) = ￥{{ material.subtotal }}
+              {{ material.name }} ({{ material.quantity }} )
             </li>
           </ul>
           <p><strong>总费用：</strong>￥{{ repair.totalCost || "待结算" }}</p>
@@ -56,13 +56,14 @@ export default {
   computed: {
     // 计算当前页显示的维修记录
     pagedRepairs() {
+      const repairs = this.repairsAll || [];
       const start = (this.currentPage - 1) * this.pageSize;
       const end = start + this.pageSize;
-      return this.repairsAll.slice(start, end);
+      return repairs.slice(start, end);
     },
     // 总页数
     totalPages() {
-      return Math.ceil(this.repairsAll.length / this.pageSize);
+      return Math.ceil((this.repairsAll?.length || 0) / this.pageSize);
     },
   },
   mounted() {
