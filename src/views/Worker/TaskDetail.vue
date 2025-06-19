@@ -12,6 +12,7 @@
       <div class="info-card">
         <p><strong>任务描述：</strong>{{ taskData.description }}</p>
         <p><strong>车辆信息：</strong>{{ taskData.vehicleInfo }}</p>
+        <p v-if="taskData.requestUserEmail"><strong>顾客邮箱：</strong>{{ taskData.requestUserEmail }}</p>
       </div>
 
       <!-- 表格样式优化 -->
@@ -40,6 +41,17 @@
           <i class="icon-plus"></i> 添加材料
         </button>
         <div class="form-actions">
+          <div class="hours-input">
+            <label>耗费工时：</label>
+            <input
+                type="number"
+                step="0.5"
+                min="0"
+                v-model.number="hoursSpent"
+                placeholder="输入工时"
+                required
+            >
+          </div>
           <button @click="submitMaterials" class="btn btn-primary">提交修改</button>
           <button @click="completeTask" class="btn btn-success">完成任务</button>
         </div>
@@ -59,7 +71,8 @@ export default {
     return {
       taskId: this.id,
       taskData: null,
-      loading: true
+      loading: true,
+      hoursSpent: 0,
     };
   },
   watch: {
@@ -109,9 +122,14 @@ export default {
       }
     },
     async completeTask() {
+      if (!this.hoursSpent || this.hoursSpent <= 0) {
+        alert('请输入有效的工时数');
+        return;
+      }
       if (confirm('确认要标记该任务为已完成吗？')) {
         try {
-          await API.put(`/repair-orders/${this.taskId}/complete`);
+          await API.put(`/repair-orders/${this.taskId}/complete`, {
+            hours: this.hoursSpent});
           alert('任务状态已更新！');
           this.$router.push('/workerboard/board'); // 跳转到工人面板
         } catch (error) {

@@ -8,6 +8,9 @@
         <li v-for="task in tasks" :key="task.id">
           <p>任务描述：{{ task.description }}</p>
           <p>车辆信息：{{ task.vehicleInfo }}</p>
+          <p class="urgency-tag" :class="{ 'urgent': task.isUrgent }">
+            {{ task.isUrgent ? '🔥 紧急订单' : '🟢 普通订单' }}
+          </p>
           <button @click.stop="navigateToDetail(task.id)">查看详情</button>
         </li>
       </ul>
