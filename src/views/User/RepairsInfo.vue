@@ -11,8 +11,14 @@
           <p><strong>车辆品牌：</strong>{{ repair.brand }}</p>
           <p><strong>车辆型号：</strong>{{ repair.model }}</p>
           <p><strong>描述：</strong>{{ repair.description }}</p>
-          <p><strong>状态：</strong>{{ repair.status }}</p>
+          <p><strong>状态：</strong>
+            <span v-if="repair.status === 'TO_ACCEPT'||repair.status === 'PENDING'">待处理</span>
+            <span v-else-if="repair.status === 'IN_PROGRESS'">维修中</span>
+            <span v-else-if="repair.status === 'COMPLETED'">已完成</span>
+            <span v-else>{{ repair.status }}</span>
+          </p>
           <p><strong>开始时间：</strong>{{ repair.startTime ? formatDate(repair.startTime) : "未开始" }}</p>
+          <p v-if="repair.completionTime"><strong>结束时间：</strong>{{ formatDate(repair.completionTime) }}</p>
           <p><strong>维修人员：</strong>
             <span v-if="repair.worker">{{ repair.worker.name }}</span>
             <span v-else>暂无</span>
