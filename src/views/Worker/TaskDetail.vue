@@ -3,6 +3,9 @@
     <!-- 头部样式优化 -->
     <div class="detail-header">
       <h2>任务详情 #{{ taskId }}</h2>
+      <button @click="goBack" class="btn btn-danger">
+        <i class="icon-arrow-left"></i> 返回列表
+      </button>
     </div>
 
     <div v-if="loading" class="loading">加载中...</div>
@@ -65,6 +68,7 @@
 <script>
 import API from "../../api/config";
 
+
 export default {
   props: ['id'], // 接收路由参数
   data() {
@@ -86,6 +90,9 @@ export default {
     this.loadTaskData();
   },
   methods: {
+    goBack() {
+      this.$router.push('/workerboard/board');
+    },
     async loadTaskData() {
       try {
         this.loading = true;
